@@ -30,7 +30,7 @@ class Desktop extends Component {
             <>
             <div className={(this.props.transparent ? "navbar mobile transparent" : "navbar mobile")}>
                 <div className="left">
-                    {!this.props.transparent && this.props.profile.theme === 'theme_light' && <img className="logo" src={mirror_black} alt="Curate logo" />}
+                    {!this.props.transparent && this.props.profile.theme === 'theme_light' && <img className="logo" src={mirror_white} alt="Curate logo" />}
                     {(this.props.transparent || this.props.profile.theme === 'theme_dark') && <img className="logo" src={mirror_white} alt="Curate logo" />}
                     {/* links */}
                 </div>
@@ -44,15 +44,15 @@ class Desktop extends Component {
                 <div className={(this.state.menu ? "container": "container hidetext")} onClick={this.toggleMenu}>
                     <div className="action">
                         <div className="settings-icon" onClick={this.props.toggleSettings}>
-                            {this.props.authorization.isAuth && <button className="default disabled small" onClick={this.props.toggleSettings}><i className="material-icons">brush</i>Appearance</button>}
+                            {this.props.authorization.isAuth && <button className="invert animate alt small" onClick={this.props.toggleSettings}><i className="material-icons">brush</i>Action 1</button>}
                         </div>
                         <div className="buttons">
-                            {this.props.authorization.isAuth && <button className="default disabled small" onClick={this.props.logout()}><i className="material-icons">power_settings_new</i>Logout</button>}
-                            {!this.props.authorization.isAuth && <button className="secondary small left" onClick={() => this.signin('signin')}><i className="material-icons">person</i>Login</button>}
-                            {!this.props.authorization.isAuth && <button className="secondary small right" onClick={() => this.signin('signup')}><i className="material-icons">person_add</i>Signup</button>}
+                            {this.props.authorization.isAuth && <button className="invert animate alt small" onClick={this.props.logout()}><i className="material-icons">power_settings_new</i>Logout</button>}
+                            {!this.props.authorization.isAuth && <button className="invert animate alt small left" onClick={() => this.signin('signin')}><i className="material-icons">person</i>Login</button>}
+                            {!this.props.authorization.isAuth && <button className="invert animate alt small right" onClick={() => this.signin('signup')}><i className="material-icons">person_add</i>Signup</button>}
                         </div>
                     </div>
-                    <Links authorization={this.props.authorization}/>
+                    <Links authorization={this.props.authorization} profile={this.props.profile}/>
                 </div>
             </div>
             </>

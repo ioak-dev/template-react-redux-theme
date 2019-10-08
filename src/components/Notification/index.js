@@ -38,9 +38,10 @@ class Notification extends Component {
                 
                 if (nextProps.event.data.duration) {
                     setTimeout(() => {
-                        this.setState({
-                            notification: null
-                        })
+                        // this.setState({
+                        //     notification: null
+                        // })
+                        this.props.sendEvent('notification', false);
                     }, nextProps.event.data.duration);
                 }
             }

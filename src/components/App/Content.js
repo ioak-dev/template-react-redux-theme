@@ -11,7 +11,7 @@ import { withCookies } from 'react-cookie';
 import { connect } from 'react-redux';
 import { receiveEvents, sendEvent } from '../../actions/EventActions';
 import { getAuth, addAuth, removeAuth } from '../../actions/AuthActions';
-import { getProfile } from '../../actions/ProfileActions';
+import { getProfile, setProfile } from '../../actions/ProfileActions';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Backdrop from './Backdrop';
@@ -44,7 +44,6 @@ function getTheme(color) {
 class Content extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.props.receiveEvents();
         this.props.getProfile();
         this.props.getAuth();
@@ -61,7 +60,7 @@ class Content extends Component {
 
     render() {
         return (
-            <div className={"App " + this.props.profile.theme + " themecolor_1"}>
+            <div className={"App"}>
                 
                 <HashRouter>
                     <AuthInit />
@@ -71,9 +70,9 @@ class Content extends Component {
                             <Notification sendEvent={this.props.sendEvent} event={this.props.event} />
                             <MuiThemeProvider theme={themes['themecolor_1']}>
                                 <Navigation {...this.props} logout={() => this.logout}/>
-                                <Route exact path="/" render={(props) => <Home {...props} {...this.props} logout={() => this.logout}/>} />
                                 <Route path="/home" render={(props) => <Home {...props} {...this.props} logout={() => this.logout}/>} />
                                 <Route path="/login" render={(props) => <Login {...props} {...this.props} logout={() => this.logout}/>} />
+                                <Route path="/" exact render={(props) => <Home {...props} {...this.props} logout={() => this.logout}/>} />
                             </MuiThemeProvider>
                         </div>
                     </div>
@@ -87,6 +86,7 @@ Content.propTypes = {
     receiveEvents: PropTypes.func.isRequired,
     sendEvent: PropTypes.func.isRequired,
     getProfile: PropTypes.func.isRequired,
+    setProfile: PropTypes.func.isRequired,
     getAuth: PropTypes.func.isRequired,
     addAuth: PropTypes.func.isRequired,
     removeAuth: PropTypes.func.isRequired,
@@ -102,4 +102,4 @@ const mapStateToProps = state => ({
   event: state.event
 })
 
-export default connect(mapStateToProps, { getAuth, addAuth, removeAuth, receiveEvents, sendEvent, getProfile })(withCookies(Content));
+export default connect(mapStateToProps, { getAuth, addAuth, removeAuth, receiveEvents, sendEvent, getProfile, setProfile })(withCookies(Content));

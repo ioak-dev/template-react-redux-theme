@@ -5,6 +5,7 @@
     $signinIconHeight: 25px;
 
     font-family: 'Open Sans', sans-serif;
+    // font-family: 'Open Sans Condensed', sans-serif;
 
     .navbar {
 
@@ -54,7 +55,7 @@
         .links {
             display: flex;
             a {
-                color: var(--color-body-invert-dim);
+                color: var(--color-body-dim);
                 position: relative;
                 transition: all .5s;
                 text-decoration: none;
@@ -65,7 +66,7 @@
                 text-transform: uppercase;
 
                 &.active {
-                    color: var(--color-body-invert);
+                    color: var(--color-body);
 
                     &::after {
                         width: 95%;
@@ -134,7 +135,7 @@
             .menu:after,
             .menu:before,
             .menu div {
-                background-color: var(--color-body-invert);
+                background-color: var(--color-body);
                 border-radius: 3px;
                 content: '';
                 display: block;
@@ -189,7 +190,7 @@
                 align-content: center;
                 a {
                     text-decoration: none;
-                    color: var(--color-body-invert);
+                    color: var(--color-body);
                     font-size: 1.5em;
                     padding: 10px;
 

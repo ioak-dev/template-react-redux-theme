@@ -43,9 +43,8 @@ class Login extends Component {
     render() {
         return (
             <>
-                <Navigation />
                 <div className="login boxed">
-                    {this.props.authorization.isAuth && <button className="secondary" onClick={this.logout}>Logout</button>}
+                    {this.props.authorization.isAuth && <button className="secondary animate alt" onClick={this.logout}>Logout</button>}
                     {!this.props.authorization.isAuth && <button className="primary block" onClick={this.login}>Login</button>}
                 </div>
             </>
