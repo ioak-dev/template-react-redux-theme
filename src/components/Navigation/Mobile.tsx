@@ -1,16 +1,36 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import './style.scss';
 import mirror_white from '../../images/mirror_white.svg';
 import mirror_black from '../../images/mirror_black.svg';
 import Links from './Links';
+import { Authorization, Profile } from '../Types/GeneralTypes';
 
-class Desktop extends Component {
+interface Props {    
+    sendEvent: Function,
+    getAuth: Function,
+    addAuth: Function,
+    removeAuth: Function,
+    authorization: Authorization
+    getProfile: Function,
+    profile: Profile,
+    login: Function,
+    transparent: boolean,
+    logout: Function,
+    toggleSettings: any
+}
+
+interface State {
+    menu: boolean,
+    showSearchBar: boolean
+}
+
+class Mobile extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.props.getProfile();
         this.state = {
+            showSearchBar: false,
             menu: false
         }
     }
@@ -60,16 +80,4 @@ class Desktop extends Component {
     }
 }
 
-Desktop.propTypes = {
-    sendEvent: PropTypes.func.isRequired,
-    getAuth: PropTypes.func.isRequired,
-    addAuth: PropTypes.func.isRequired,
-    removeAuth: PropTypes.func.isRequired,
-    authorization: PropTypes.object.isRequired,
-    getProfile: PropTypes.func.isRequired,
-
-    profile: PropTypes.object.isRequired
-
-}
-
-export default Desktop;
+export default Mobile;

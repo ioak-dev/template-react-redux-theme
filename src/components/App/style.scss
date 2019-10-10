@@ -91,3 +91,18 @@ a {
 .color-secondary {
   color: var(--color-secondary);
 }
+
+input {
+  display: block;
+  font-size: 16px;
+  line-height: 25px;
+  // margin-top: 0;
+  font-weight: 300;
+  border: none;
+  border-radius: 2px;
+  background: #fff;
+  color: #1a1a1a;
+  padding: 14.4px 16px;
+  width: 100%;
+  outline: none;
+}

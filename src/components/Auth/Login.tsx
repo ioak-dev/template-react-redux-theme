@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAuth, addAuth, removeAuth } from '../../actions/AuthActions';
-import PropTypes from 'prop-types';
 import {withCookies} from 'react-cookie';
 import './Login.scss';
-import Navigation from '../Navigation';
+import { Authorization } from '../Types/GeneralTypes';
 
-class Login extends Component {
+interface Props {
+    getAuth: Function,
+    addAuth: Function,
+    removeAuth: Function,
+    cookies: any,
+    history: any,
+    authorization: Authorization
+}
+
+interface State {
+    newuser: boolean
+}
+
+class Login extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
@@ -50,13 +62,6 @@ class Login extends Component {
             </>
         );
     }
-}
-
-Login.propTypes = {
-    getAuth: PropTypes.func.isRequired,
-    addAuth: PropTypes.func.isRequired,
-    removeAuth: PropTypes.func.isRequired,
-    authorization: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

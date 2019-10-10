@@ -4,12 +4,11 @@ import './style.scss';
 import Home from '../Home';
 import { HashRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import Login from '../Auth/Login';
+import Landing from '../Landing';
 import PrivateRoute from '../Auth/PrivateRoute';
 import AuthInit from '../Auth/AuthInit';
-import PropTypes from 'prop-types';
 import { withCookies } from 'react-cookie';
 import { connect } from 'react-redux';
-import { receiveEvents, sendEvent } from '../../actions/EventActions';
 import { getAuth, addAuth, removeAuth } from '../../actions/AuthActions';
 import { getProfile, setProfile } from '../../actions/ProfileActions';
 
@@ -17,6 +16,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Backdrop from './Backdrop';
 import Notification from '../Notification';
 import Navigation from '../Navigation';
+import { Authorization } from '../Types/GeneralTypes';
+import { receiveMessage, sendMessage } from '../../events/MessageService';
 
 const themes = {
     'themecolor_1': getTheme('#69A7BF'),
@@ -25,11 +26,8 @@ const themes = {
     'themecolor_4': getTheme('#37AE82')
 }
 
-function getTheme(color) {
+function getTheme(color: string) {
     return createMuiTheme({
-        typography: {
-          useNextVariants: true,
-        },
         palette: {
           primary: {
               main: color         
@@ -41,21 +39,54 @@ function getTheme(color) {
       });
 }
 
-class Content extends Component {
-    constructor(props) {
+
+
+interface Props {
+    getProfile: Function,
+    setProfile: Function,
+    getAuth: Function,
+    addAuth: Function,
+    removeAuth: Function,
+    cookies: any,
+
+    // event: PropTypes.object,
+    profile: any,
+    authorization: Authorization
+}
+
+interface State {
+    authorization: Authorization,
+    profile: any,
+    event: any
+}
+
+class Content extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
-        this.props.receiveEvents();
         this.props.getProfile();
         this.props.getAuth();
+
+
+        this.state = {
+            authorization: {
+                isAuth: false
+            },
+            event: {},
+            profile: {}
+        }
+    }
+
+    componentDidMount() {
+        receiveMessage().subscribe();
     }
     
-    logout = (event, type = 'success', message = 'You have been logged out') => {
+    logout = (event: any, type = 'success', message = 'You have been logged out') => {
         this.props.removeAuth();
         this.props.cookies.remove('isAuth');
         this.props.cookies.remove('token');
         this.props.cookies.remove('secret');
         this.props.cookies.remove('name');
-        this.props.sendEvent('notification', true, {type: type, message: message, duration: 3000});
+        sendMessage('notification', true, {type: type, message: message, duration: 3000});
     }
 
     render() {
@@ -64,15 +95,15 @@ class Content extends Component {
                 
                 <HashRouter>
                     <AuthInit />
-                    <Backdrop sendEvent={this.props.sendEvent} event={this.props.event} />
+                    <Backdrop />
                     <div className="body">
                         <div className="body-content">
-                            <Notification sendEvent={this.props.sendEvent} event={this.props.event} />
+                            <Notification />
                             <MuiThemeProvider theme={themes['themecolor_1']}>
-                                <Navigation {...this.props} logout={() => this.logout}/>
-                                <Route path="/home" render={(props) => <Home {...props} {...this.props} logout={() => this.logout}/>} />
-                                <Route path="/login" render={(props) => <Login {...props} {...this.props} logout={() => this.logout}/>} />
-                                <Route path="/" exact render={(props) => <Home {...props} {...this.props} logout={() => this.logout}/>} />
+                                <Navigation {...this.props} logout={() => this.logout} event={this.state.event} />
+                                <Route path="/home" render={(props: any) => <Home {...props} {...this.props} logout={() => this.logout} event={this.state.event} />} />
+                                <Route path="/login" render={(props: any) => <Login {...props} {...this.props} logout={() => this.logout} event={this.state.event} />} />
+                                <Route path="/" exact render={(props: any) => <Landing {...props} {...this.props} logout={() => this.logout} event={this.state.event} />} />
                             </MuiThemeProvider>
                         </div>
                     </div>
@@ -82,24 +113,10 @@ class Content extends Component {
     }
 }
 
-Content.propTypes = {
-    receiveEvents: PropTypes.func.isRequired,
-    sendEvent: PropTypes.func.isRequired,
-    getProfile: PropTypes.func.isRequired,
-    setProfile: PropTypes.func.isRequired,
-    getAuth: PropTypes.func.isRequired,
-    addAuth: PropTypes.func.isRequired,
-    removeAuth: PropTypes.func.isRequired,
-
-    event: PropTypes.object,
-    profile: PropTypes.object.isRequired,
-    authorization: PropTypes.object.isRequired
-}
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   authorization: state.authorization,
-  profile: state.profile,
-  event: state.event
+  profile: state.profile//,
+//   event: state.event
 })
 
-export default connect(mapStateToProps, { getAuth, addAuth, removeAuth, receiveEvents, sendEvent, getProfile, setProfile })(withCookies(Content));
+export default connect(mapStateToProps, { getAuth, addAuth, removeAuth, getProfile, setProfile })(withCookies(Content));

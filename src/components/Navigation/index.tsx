@@ -2,14 +2,44 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router'
 import { getProfile, setProfile } from '../../actions/ProfileActions';
-import PropTypes from 'prop-types';
 import {withCookies} from 'react-cookie';
 
 import './style.scss';
 import Desktop from './Desktop';
 import Mobile from './Mobile';
 
-class Navigation extends Component {
+import { Authorization, Profile } from '../Types/GeneralTypes';
+import { sendMessage, receiveMessage } from '../../events/MessageService';
+
+interface Props {    
+    sendEvent: Function,
+    getAuth: Function,
+    addAuth: Function,
+    removeAuth: Function,
+    authorization: Authorization,
+    getProfile: Function,
+    setProfile: Function,
+    profile: Profile,
+    login: Function,
+    transparent: boolean,
+    logout: Function,
+    toggleSettings: any,
+    history: any,
+    cookies: any,
+    location: any,
+    match: any
+}
+
+interface State {
+    visible: boolean,
+    mobilemenu: string,
+    chooseTheme: boolean,
+    showSettings: boolean,
+    transparentNavBar: boolean,
+    firstLoad: boolean
+}
+
+class Navigation extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.props.getProfile();
@@ -23,14 +53,26 @@ class Navigation extends Component {
         }
     }
 
+    componentDidMount() {
+        receiveMessage().subscribe(message => {
+            if (message.name === 'navbar-transparency') {
+                this.setState({
+                    transparentNavBar: message.signal
+                })
+            }
+            if (message.name === 'loggedin') {
+                // this.props.reloadProfile(nextProps.authorization);
+                this.setState({
+                    firstLoad: false
+                })
+            }
+        })
+    }
+
+    
+
     componentWillReceiveProps(nextProps) {
-        if (nextProps.event && nextProps.event.name === 'navbar-transparency') {
-            this.setState({
-                transparentNavBar: nextProps.event.signal
-            })
-        }
-        if ((this.state.firstLoad && nextProps.authorization && nextProps.authorization.isAuth) || 
-            (nextProps.event && nextProps.event.name === 'loggedin')) {
+        if (this.state.firstLoad && nextProps.authorization && nextProps.authorization.isAuth) {
             // this.props.reloadProfile(nextProps.authorization);
             this.setState({
                 firstLoad: false
@@ -84,18 +126,6 @@ class Navigation extends Component {
             </div>
         );
     }
-}
-
-Navigation.propTypes = {
-    sendEvent: PropTypes.func.isRequired,
-    removeAuth: PropTypes.func.isRequired,
-    authorization: PropTypes.object.isRequired,
-    getProfile: PropTypes.func.isRequired,
-    setProfile: PropTypes.func.isRequired,
-
-    profile: PropTypes.object.isRequired,
-    event: PropTypes.object.isRequired
-
 }
 
 const mapStateToProps = state => ({

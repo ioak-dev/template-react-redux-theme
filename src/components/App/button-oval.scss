@@ -1,4 +1,3 @@
-
 button {
 
   // font-family: 'Open Sans Condensed', sans-serif;
@@ -30,10 +29,10 @@ button {
 
   background: none;
   outline: none;
-  color: var(--color-btn-fg-light) !important;
+  color: var(--color-btn-fg-light);
   
   &.alt {
-    color: var(--color-btn-fg-dark) !important;
+    color: var(--color-btn-fg-dark);
   }
 
   // text-transform: uppercase;
@@ -78,47 +77,47 @@ button {
   }
 
   &.invert {
-    color: var(--color-btn-fg-dark) !important;
+    color: var(--color-btn-fg-dark);
 
     &.alt {
-      color: var(--color-btn-fg-light) !important;
+      color: var(--color-btn-fg-light);
     }
   }
 
   &.animate {
-    color: var(--color-btn-fg-light) !important;
+    color: var(--color-btn-fg-light);
     &.alt {
-      color: var(--color-btn-fg-dark) !important;
+      color: var(--color-btn-fg-dark);
     }
     &:hover {
-      color: var(--color-btn-fg-light) !important;
-      background-color: var(--color-bg-hover) !important;
+      color: var(--color-btn-fg-light);
+      background-color: var(--color-bg-hover);
       border: 2px solid var(--color-bg-hover);
       transition: 0.2s cubic-bezier(.5,1.6,.4,.7);
     }
 
     &.invert {
-      color: var(--color-btn-fg-dark) !important;
+      color: var(--color-btn-fg-dark);
   
       &.alt {
-        color: var(--color-btn-fg-light) !important;
+        color: var(--color-btn-fg-light);
       }
     }
   }
 
   &.block {
-    color: var(--color-btn-fg-light) !important;
-    background-color: var(--color-bg) !important;
+    color: var(--color-btn-fg-light);
+    background-color: var(--color-bg);
     &:hover {
-      background-color: var(--color-bg-hover) !important;
+      background-color: var(--color-bg-hover);
       border: 2px solid var(--color-bg-hover);
     }
 
     &.invert {
-      color: var(--color-btn-fg-dark) !important;
+      color: var(--color-btn-fg-dark);
   
       &.alt {
-        color: var(--color-btn-fg-light) !important;
+        color: var(--color-btn-fg-light);
       }
     }
   }

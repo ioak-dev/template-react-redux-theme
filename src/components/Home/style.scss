@@ -1,12 +1,25 @@
 .home {
     .search-bar {
-        display: grid;
-        grid-template-columns: auto;
+        display: flex;
+        flex: 1 1 100%;
+        max-width: 100%;
+
+        input {
+            z-index: 0;
+        }
+
+        margin: 5vh 10vw 0px 10vw;
     }
 
     .cover {
         overflow: hidden;
-        height: 100%;
-        width: auto;
+        // position: absolute;
+        margin-top: calc(0px - var(--height-nav));
+        img {
+            width: 100%;
+            @media (max-width: 767px) {
+                width: 200%;
+            }
+        }
     }
 }

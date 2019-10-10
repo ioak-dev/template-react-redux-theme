@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import './style.scss';
 import { NavLink } from 'react-router-dom';
+import { Authorization, Profile } from '../Types/GeneralTypes';
 
-class Links extends Component {
+interface Props {
+    authorization: Authorization,
+    profile: Profile
+}
+
+interface State {
+    menu: boolean
+}
+
+class Links extends Component<Props, State> {
     toggleMenu = () => {
         this.setState({
             menu: !this.state.menu
@@ -16,17 +25,13 @@ class Links extends Component {
             <div className="links">
                 {this.props.authorization.isAuth &&
                     <>
-                    <NavLink to="/home" className="navitem" activeClassName="active">Home</NavLink>
-                    <NavLink to="/login" className="navitem" activeClassName="active">Login</NavLink>
+                    <NavLink to={"/home"} className="navitem" activeClassName="active">Home</NavLink>
+                    <NavLink to={"/login"} className="navitem" activeClassName="active">Login</NavLink>
                     </>
                 }
             </div>
         );
     }
-}
-
-Links.propTypes = {
-    authorization: PropTypes.object.isRequired
 }
 
 export default Links;
